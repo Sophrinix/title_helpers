@@ -15,7 +15,8 @@ module Mcmire
         # the window title. You can pass :only and :except to limit this to certain actions.
         def window_title(*args, &block)
           options = Hash === args.last ? args.last : {}
-          before_filter(options) {|c| c.window_title(*args, &block) }
+          args.unshift Array(yield) if block_given?
+          before_filter(options) {|c| c.window_title(*args) }
         end
       
         # Call this in the body of your controller with a string to set the page title
@@ -23,16 +24,18 @@ module Mcmire
         # work for subcontrollers -- so if you call page_title in a supercontroller and
         # also in a subcontroller, the subcontroller's title will override the supercontroller's.
         # You can pass :only and :except to limit this to certain actions.
-        def page_title(*args, &block)
+        def page_title(*args)
           options = Hash === args.last ? args.last : {}
-          before_filter(options) {|c| c.page_title(*args, &block) }
+          args.unshift Array(yield) if block_given?
+          before_filter(options) {|c| c.page_title(*args) }
         end
       
         # Call this in the body of your controller to tell page_title to not show anything.
         # You can pass :only and :except to limit this to certain actions.
-        def hide_page_title(*args, &block)
+        def hide_page_title(*args)
           options = Hash === args.last ? args.last : {}
-          before_filter(options) {|c| c.hide_page_title(*args, &block) }
+          args.unshift Array(yield) if block_given?
+          before_filter(options) {|c| c.hide_page_title(*args) }
         end
       
         # Call this in the body of your controller with a string to add it to the
@@ -41,7 +44,8 @@ module Mcmire
         # You can pass :only and :except to limit this to certain actions.
         def title(*args, &block)
           options = Hash === args.last ? args.last : {}
-          before_filter(options) {|c| c.title(*args, &block) }
+          args.unshift Array(yield) if block_given?
+          before_filter(options) {|c| c.title(*args) }
         end
       end
     end
